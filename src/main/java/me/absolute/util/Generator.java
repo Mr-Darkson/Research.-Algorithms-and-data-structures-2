@@ -17,8 +17,8 @@ public class Generator {
 
     public static List<Point> generatePoints(long n) {
         var arr = new ArrayList<Point>();
-        long pX = 75254857;
-        long pY = 40509479;
+        long pX = 78192736;
+        long pY = 18536584;
         for (long i = 0; i < n; i++) {
             long first = hashPoint(i, pX, n);
             long second = hashPoint(i, pY, n);
