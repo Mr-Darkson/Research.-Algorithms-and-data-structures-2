@@ -1,5 +1,5 @@
 # Algorithms and data structures. Laboratory work № 2
-Here is the second laboratory work on algorithms. It was prepared and performed by Arseniy Nikitin, a student of Group 222 of the Higher School of Economics. We are faced with the following task: There is some random number of rectangles and a random number of points. It is necessary to determine as efficiently as possible how many rectangles each point given to us belongs to.
+Here is the second laboratory work on algorithms. It was prepared and performed by Arseniy Nikitin, a student of Group 22PI2 of the Higher School of Economics. We are faced with the following task: There is some random number of rectangles and a random number of points. It is necessary to determine as efficiently as possible how many rectangles each point given to us belongs to.
 We will consider three algorithms:
 - The brute force algorithm
 - Compressed matrix algorithm
