@@ -64,29 +64,7 @@ public class SegmentTreeNode {
         modifier = 0;
     }
 
-    public SegmentTreeNode addToSegment(long value, long l, long r) {
-        if (doesFullIntersect(l, r)) {
-            return addToAllChildren(value);
-        } else if (doesIntersect(l, r)) {
-            SegmentTreeNode newNode = addToForEachInIntersection(value, l, r);
-            newNode.left = newNode.left.addToSegment(value, l, r);
-            newNode.right = newNode.right.addToSegment(value, l, r);
-            return newNode;
-        }
 
-        return this;
-    }
-
-    private boolean doesFullIntersect(long l, long r) {
-        return leftBorder >= l && rightBorder <= r;
-    }
-
-    private boolean doesIntersect(long l, long r) {
-        l = Math.max(l, leftBorder);
-        r = Math.min(r, rightBorder);
-
-        return l < rightBorder && r > leftBorder;
-    }
 
     private SegmentTreeNode addToAllChildren(long value) {
         return copyWith(
@@ -136,6 +114,30 @@ public class SegmentTreeNode {
                 build(leftValues, offset),
                 build(rightValues, values.length / 2 + offset)
         );
+    }
+
+    public SegmentTreeNode addToSegment(long value, long l, long r) {
+        if (doesFullIntersect(l, r)) {
+            return addToAllChildren(value);
+        } else if (doesIntersect(l, r)) {
+            SegmentTreeNode newNode = addToForEachInIntersection(value, l, r);
+            newNode.left = newNode.left.addToSegment(value, l, r);
+            newNode.right = newNode.right.addToSegment(value, l, r);
+            return newNode;
+        }
+
+        return this;
+    }
+
+    private boolean doesFullIntersect(long l, long r) {
+        return leftBorder >= l && rightBorder <= r;
+    }
+
+    private boolean doesIntersect(long l, long r) {
+        l = Math.max(l, leftBorder);
+        r = Math.min(r, rightBorder);
+
+        return l < rightBorder && r > leftBorder;
     }
 
 }
