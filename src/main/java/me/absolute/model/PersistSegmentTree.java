@@ -5,7 +5,7 @@ import java.util.List;
 
 public class PersistSegmentTree {
 
-    public static final PersistSegmentTree ZERO_TREE = new PersistSegmentTree(new long[]{0});
+    public static final PersistSegmentTree START = new PersistSegmentTree(new long[]{0});
     private SegmentTreeNode root;
     private long x = -1;
     private final List<SegmentTreeNode> states = new ArrayList<>();
@@ -16,7 +16,7 @@ public class PersistSegmentTree {
 
     public void switchState(int index) {
         if(states.size() <= index || index < 0) {
-            root = ZERO_TREE.root;
+            root = START.root;
         }
         else if (index < states.size() - 1) {
             root = states.get(index);
