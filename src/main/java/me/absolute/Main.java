@@ -7,54 +7,79 @@ import me.absolute.model.Point;
 import me.absolute.model.Rectangle;
 import me.absolute.model.SegmentTreeNode;
 import me.absolute.util.Generator;
+import me.absolute.util.TimeCounter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        List<Rectangle> rectangles = Generator.generateRectangles(5);
-                /*new ArrayList<>();
-        rectangles.add(new Rectangle(Point.of(2,2), Point.of(6,8)));
-        rectangles.add(new Rectangle(Point.of(5,4), Point.of(9,10)));
-        rectangles.add(new Rectangle(Point.of(4,0), Point.of(11,6)));
-        rectangles.add(new Rectangle(Point.of(8,2), Point.of(12,12)));
-
-                 */
-
-        List<Point> points = Generator.generatePoints(10);
-                /*new ArrayList<>();
-        points.add(Point.of(2,2));
-        points.add(Point.of(12,12));
-        points.add(Point.of(10,4));
-        points.add(Point.of(5,5));
-        points.add(Point.of(2, 10));
-        points.add(Point.of(2,8));
-
-                 */
-
-        BruteforceAlgorithm bruteforceAlgorithm = new BruteforceAlgorithm();
-        bruteforceAlgorithm.prepare(rectangles);
-        for(Long x : bruteforceAlgorithm.consider(points)) {
-            System.out.print(x + " ");
-        }
-        System.out.println();
-
-        MatrixAlgorithm matrixAlgorithm = new MatrixAlgorithm();
-        matrixAlgorithm.prepare(rectangles);
-        for(Long x : matrixAlgorithm.consider(points)) {
-            System.out.print(x + " ");
-        }
-        System.out.println();
-
-        SegmentTreeAlgorithm segmentTreeAlgorithm = new SegmentTreeAlgorithm();
-        segmentTreeAlgorithm.prepare(rectangles);
-        for(Long x : segmentTreeAlgorithm.consider(points)) {
-            System.out.print(x + " ");
-        }
+        benchmark(10,10); // 10 25 50 100 200 400 600 800
+        benchmark(25,25);
+        benchmark(50,50);
+        benchmark(100,100);
+        benchmark(200,200);
+        benchmark(400,400);
+        benchmark(600,600);
+        benchmark(800,800);
 
     }
 
+
+    public static void benchmark(long countRecs, long countPoints) {
+        List<Rectangle> rectangles = Generator.generateRectangles(countRecs);
+        List<Point> points = Generator.generatePoints(countPoints);
+
+        long[] bruteForceData = new long[3];
+        String BRUTEFORCE_TEXT = "Bruteforse, время подготовки: %d, время исполнения: %d, общее время: %d\n";
+        long[] matrixData = new long[3];
+        String MATRIX_TEXT = "Matrix, время подготовки: %d, время исполнения: %d, общее время: %d\n";
+        long[] segmentTreeData = new long[3];
+        String SEGMENT_TREE_TEXT = "SegmentTree, время подготовки: %d, время исполнения: %d, общее время: %d\n";
+
+        BruteforceAlgorithm bruteforceAlgorithm = new BruteforceAlgorithm();
+        MatrixAlgorithm matrixAlgorithm = new MatrixAlgorithm();
+        SegmentTreeAlgorithm segmentTreeAlgorithm = new SegmentTreeAlgorithm();
+        List<Long> result;
+
+        //BRUTEFORCE
+        TimeCounter.start();
+        bruteforceAlgorithm.prepare(rectangles);
+        bruteForceData[0] = TimeCounter.finish();
+
+        TimeCounter.start();
+        result = bruteforceAlgorithm.consider(points);
+        bruteForceData[1] = TimeCounter.finish();
+        bruteForceData[2] = bruteForceData[0] + bruteForceData[1];
+
+
+
+        //MATRIX
+        TimeCounter.start();
+        matrixAlgorithm.prepare(rectangles);
+        matrixData[0] = TimeCounter.finish();
+
+        TimeCounter.start();
+        result = matrixAlgorithm.consider(points);
+        matrixData[1] = TimeCounter.finish();
+        matrixData[2] = matrixData[0] + matrixData[1];
+
+
+        //SEGMENT-TREE
+        TimeCounter.start();
+        segmentTreeAlgorithm.prepare(rectangles);
+        segmentTreeData[0] = TimeCounter.finish();
+
+        TimeCounter.start();
+        result = segmentTreeAlgorithm.consider(points);
+        segmentTreeData[1] = TimeCounter.finish();
+        segmentTreeData[2] = segmentTreeData[0] + segmentTreeData[1];
+
+        System.out.printf(BRUTEFORCE_TEXT, bruteForceData[0], bruteForceData[1], bruteForceData[2]);
+        System.out.printf(MATRIX_TEXT, matrixData[0], matrixData[1], matrixData[2]);
+        System.out.printf(SEGMENT_TREE_TEXT, segmentTreeData[0], segmentTreeData[1], segmentTreeData[2]);
+
+
+    }
 
 
 
